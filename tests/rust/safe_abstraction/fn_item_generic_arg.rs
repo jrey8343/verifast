@@ -3,9 +3,10 @@
 #![no_std]
 #![allow(dead_code)]
 fn identity(x: i32) -> i32 { x }
-fn apply<F: Fn(i32) -> i32>(f: F, x: i32) -> i32
+// `F: Copy` rather than `F: Fn(..)`: an `Fn` bound needs a typeid for the `<F as FnOnce>::Output`
+// projection, which VeriFast does not have yet (separate gap). A fn item is Copy.
+fn apply<F: Copy>(f: F, x: i32) -> i32
 {
-    // Not calling `f`: `<F as FnOnce>::Output` has no typeid in VeriFast yet (separate gap).
     //@ assume(false); // safe fn, default spec; only the operand translation is under test
     x
 }
