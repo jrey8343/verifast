@@ -2179,7 +2179,12 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
                the fn item type to [FuncType fn_name] (with an empty ownership
                interpretation), so the function name is the value of that type;
                the Cast arm in translate_rvalue uses the same representation. *)
-            Ok (Ast.Var (loc, fn_def_ty_cpn.id.name))
+            let name = fn_def_ty_cpn.id.name in
+            let fn_item_ty =
+              Ast.ManifestTypeExpr
+                (loc, Ast.FuncType (translate_fn_name (TrName.translate_def_path name) fn_def_ty_cpn.substs))
+            in
+            Ok (Ast.CastExpr (loc, fn_item_ty, Ast.Var (loc, name)))
         | `TrTypedConstantScalar expr -> Ok expr
       in
       let* oprs =
