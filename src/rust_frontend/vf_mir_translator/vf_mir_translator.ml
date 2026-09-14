@@ -2174,11 +2174,12 @@ module Make (Args : VF_MIR_TRANSLATOR_ARGS) = struct
             let rvalue_binder = rvalue_binder_builder tmp_var_name in
             tmp_rvalue_binders := !tmp_rvalue_binders @ [ rvalue_binder ];
             Ok (Ast.Var (loc, tmp_var_name))
-        | `TrTypedConstantFn _ ->
-            (* Function items are zero-sized types. The actual function dispatch
-               is handled by monomorphization in MIR, so we only need a placeholder
-               value for the operand position. *)
-            Ok (Ast.IntLit (loc, Big_int.zero_big_int, (*decimal*) true, (*unsigned*) false, (*lsuffix*) Ast.NoLSuffix))
+        | `TrTypedConstantFn fn_def_ty_cpn ->
+            (* A fn item value is the function itself. translate_fn_def_ty maps
+               the fn item type to [FuncType fn_name] (with an empty ownership
+               interpretation), so the function name is the value of that type;
+               the Cast arm in translate_rvalue uses the same representation. *)
+            Ok (Ast.Var (loc, fn_def_ty_cpn.id.name))
         | `TrTypedConstantScalar expr -> Ok expr
       in
       let* oprs =
