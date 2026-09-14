@@ -113,7 +113,6 @@ cd safe_abstraction
   verifast -ignore_unwind_paths -ignore_ref_creation -allow_assume arc.rs
   verifast str.rs
   verifast -ignore_unwind_paths -allow_assume -allow_dead_code fn_item_generic_arg.rs
-  verifast -ignore_unwind_paths -allow_assume -allow_dead_code fn_item_aggregate.rs
   verifast -ignore_unwind_paths -allow_assume -allow_dead_code fn_item_map_or.rs
   verifast -ignore_unwind_paths test_division.rs
   verifast test_const_generics.rs

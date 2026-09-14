@@ -4,15 +4,11 @@
 #![allow(dead_code)]
 fn identity(x: i32) -> i32 { x }
 fn apply<F: Fn(i32) -> i32>(f: F, x: i32) -> i32
-//@ req true;
-//@ ens true;
 {
-    //@ assume(false);
+    //@ assume(false); // safe fn, default spec; only the operand translation is under test
     f(x)
 }
 fn main()
-//@ req true;
-//@ ens true;
 {
     let _result = apply(identity, 42);
 }

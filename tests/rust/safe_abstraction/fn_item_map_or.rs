@@ -3,9 +3,7 @@
 #![no_std]
 #![allow(dead_code)]
 fn check(r: Result<u32, u32>) -> Result<(), u32>
-//@ req true;
-//@ ens true;
 {
-    //@ assume(false);
+    //@ assume(false); // safe fn, default spec; only the operand translation is under test
     r.err().map_or(Ok(()), Err)
 }
